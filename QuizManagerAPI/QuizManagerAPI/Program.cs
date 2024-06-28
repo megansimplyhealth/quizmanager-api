@@ -10,10 +10,6 @@ builder.Services.AddRazorPages();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<QuizManagerContext>(options =>
-{
-    options.UseSqlServer("Server=localhost;Database=QuizManager;Trusted_Connection=True;TrustserverCertificate=True;");
-});
 
 var app = builder.Build();
 
