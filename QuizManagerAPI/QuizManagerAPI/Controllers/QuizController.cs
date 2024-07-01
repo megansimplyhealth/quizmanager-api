@@ -28,6 +28,7 @@ namespace QuizManagerAPI.Controllers
             {
                 
                 questions = db.Query<Question>("Select * From Questions").ToList();
+                //questionText = 
             }
             return Ok(questions);
 
