@@ -18,12 +18,15 @@ namespace QuizManagerAPI.Controllers
         [Route("/Questions")]
         public ActionResult getQuestions()
         //SHGRP-HTGTBY3
+        //User Id=sa;Password=R(aZNQcsx49!u3
         {
+            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
             List<Question> questions = new List<Question>();
-            using (IDbConnection db = new SqlConnection("Server=127.0.0.1;Database=QuizManager;User Id=sa;Password=R(aZNQcsx49!u3;Trusted_Connection=True;TrustServerCertificate=True"))
+            System.Console.WriteLine(con);
+            using (IDbConnection db = new SqlConnection(con))
             //to do connection string - create sql user
             {
-
+                
                 questions = db.Query<Question>("Select * From Questions").ToList();
             }
             return Ok(questions);
