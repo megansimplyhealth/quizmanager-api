@@ -8,6 +8,7 @@
         public string AnswerTwo { get; set; }
         public string AnswerThree { get; set; }
         public string AnswerFour { get; set; }
+        public int CorrectAnswer { get; set; }
 
     }
 }
