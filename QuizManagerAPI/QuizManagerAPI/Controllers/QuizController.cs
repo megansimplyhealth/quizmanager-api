@@ -17,8 +17,6 @@ namespace QuizManagerAPI.Controllers
         [HttpGet]
         [Route("/Questions")]
         public ActionResult getQuestions()
-        //SHGRP-HTGTBY3
-        //User Id=sa;Password=R(aZNQcsx49!u3
         {
             var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
             List<Question> questions = new List<Question>();
@@ -33,5 +31,34 @@ namespace QuizManagerAPI.Controllers
             return Ok(questions);
 
         }
+
+        [HttpPost]
+        [Route("/Questions")]
+        public ActionResult postQuestions(Question newQuestion)
+        {
+            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+
+            if (newQuestion == null)
+            {
+                return BadRequest("Invalid question data.");
+            }
+
+            using (IDbConnection db = new SqlConnection(con))
+            {
+                var sqlQuery = "INSERT INTO Questions (QuestionText, AnswerOne, AnswerTwo, AnswerThree, AnswerFour, CorrectAnswer) VALUES (@QuestionText, @AnswerOne, @AnswerTwo, @AnswerThree, @AnswerFour, @CorrectAnswer)";
+                var result = db.Execute(sqlQuery, new
+                {
+                    newQuestion.QuestionText,
+                    newQuestion.AnswerOne,
+                    newQuestion.AnswerTwo,
+                    newQuestion.AnswerThree,
+                    newQuestion.AnswerFour,
+                    newQuestion.CorrectAnswer
+                });
+            }
+            return Ok("Question added successfully." + newQuestion);
+        }
+
+    }
     }
 }
