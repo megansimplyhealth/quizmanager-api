@@ -60,5 +60,4 @@ namespace QuizManagerAPI.Controllers
         }
 
     }
-    }
 }
