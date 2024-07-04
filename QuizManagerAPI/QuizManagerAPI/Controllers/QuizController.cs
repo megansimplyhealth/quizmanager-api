@@ -65,13 +65,13 @@ namespace QuizManagerAPI.Controllers
         public ActionResult getResponses()
         {
             var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
-            List<Response> responses = new List<Response>();
+            List<Responses> responses = new List<Responses>();
             System.Console.WriteLine(con);
             using (IDbConnection db = new SqlConnection(con))
             //to do connection string - create sql user
             {
 
-                responses = db.Query<Response>("Select * From Responses").ToList();
+                responses = db.Query<Responses>("Select * From Responses").ToList();
                 //questionText = 
             }
             return Ok(responses);
@@ -80,7 +80,7 @@ namespace QuizManagerAPI.Controllers
 
         [HttpPost]
         [Route("/Responses")]
-        public ActionResult postResponse(Response newResponse)
+        public ActionResult postResponse(Responses newResponse)
         {
             var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
 
