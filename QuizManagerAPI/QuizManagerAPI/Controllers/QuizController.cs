@@ -6,6 +6,7 @@ using QuizManagerAPI.Models;
 using Dapper;
 using Microsoft.AspNetCore.Hosting.Server;
 using static System.Net.Mime.MediaTypeNames;
+using Azure;
 
 namespace QuizManagerAPI.Controllers
 {
@@ -57,6 +58,49 @@ namespace QuizManagerAPI.Controllers
                 });
             }
             return Ok("Question added successfully." + newQuestion);
+        }
+
+        [HttpGet]
+        [Route("/Responses")]
+        public ActionResult getResponses()
+        {
+            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+            List<Response> responses = new List<Response>();
+            System.Console.WriteLine(con);
+            using (IDbConnection db = new SqlConnection(con))
+            //to do connection string - create sql user
+            {
+
+                responses = db.Query<Response>("Select * From Responses").ToList();
+                //questionText = 
+            }
+            return Ok(responses);
+
+        }
+
+        [HttpPost]
+        [Route("/Responses")]
+        public ActionResult postResponse(Response newResponse)
+        {
+            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+
+            if (newResponse == null)
+            {
+                return BadRequest("Invalid question data.");
+            }
+
+            using (IDbConnection db = new SqlConnection(con))
+            {
+                var sqlQuery = "INSERT INTO Responses (ResponseName, ResponseDate, ResponseTime, ResponseScore) VALUES (@ResponseName, @ResponseDate, @ResponseTime, @ResponseScore)";
+                var result = db.Execute(sqlQuery, new
+                {
+                    newResponse.ResponseName,
+                    newResponse.ResponseDate,
+                    newResponse.ResponseTime,
+                    newResponse.ResponseScore
+                });
+            }
+            return Ok("Response added successfully." + newResponse);
         }
 
     }
