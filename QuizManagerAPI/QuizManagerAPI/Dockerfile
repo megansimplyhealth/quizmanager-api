@@ -9,10 +9,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["./QuizManagerAPI/QuizManagerAPI.csproj", "QuizManagerAPI/"]
-RUN dotnet restore "./QuizManagerAPI/QuizManagerAPI.csproj"
+COPY ["QuizManagerAPI/QuizManagerAPI/QuizManagerAPI.csproj", "QuizManagerAPI/QuizManagerAPI/"]
+RUN dotnet restore "QuizManagerAPI/QuizManagerAPI/QuizManagerAPI.csproj"
 COPY . .
-WORKDIR "/src/QuizManagerAPI"
+WORKDIR "/src/QuizManagerAPI/QuizManagerAPI"
 RUN dotnet build "QuizManagerAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
