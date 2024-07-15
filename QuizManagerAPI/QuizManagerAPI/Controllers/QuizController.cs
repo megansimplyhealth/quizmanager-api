@@ -8,18 +8,27 @@ using Microsoft.AspNetCore.Hosting.Server;
 using static System.Net.Mime.MediaTypeNames;
 using Azure;
 
+
 namespace QuizManagerAPI.Controllers
-{
+{   
     [Route("/quizmanagerservice/v1/")]
     //[ApiVersion("")]
     [ApiController]
     public class QuizController : Controller
     {
+
+        private readonly IConfiguration _configuration;
+
+        public QuizController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpGet]
         [Route("/Questions")]
         public ActionResult getQuestions()
         {
-            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+            var con = _configuration.GetConnectionString("quizConnectionString");
             List<Question> questions = new List<Question>();
             System.Console.WriteLine(con);
             using (IDbConnection db = new SqlConnection(con))
@@ -37,7 +46,7 @@ namespace QuizManagerAPI.Controllers
         [Route("/Questions")]
         public ActionResult postQuestions(Question newQuestion)
         {
-            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+            var con = _configuration.GetConnectionString("quizConnectionString");
 
             if (newQuestion == null)
             {
@@ -64,7 +73,7 @@ namespace QuizManagerAPI.Controllers
         [Route("/Responses")]
         public ActionResult getResponses()
         {
-            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+            var con = _configuration.GetConnectionString("quizConnectionString");
             List<Responses> responses = new List<Responses>();
             System.Console.WriteLine(con);
             using (IDbConnection db = new SqlConnection(con))
@@ -82,7 +91,7 @@ namespace QuizManagerAPI.Controllers
         [Route("/Responses")]
         public ActionResult postResponse(Responses newResponse)
         {
-            var con = "Server=localhost;Database=QuizManager;User Id=quizuser;Password=password123;TrustServerCertificate=True;";
+            var con = _configuration.GetConnectionString("quizConnectionString");
 
             if (newResponse == null)
             {
